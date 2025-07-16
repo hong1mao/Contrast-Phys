@@ -1,0 +1,81 @@
+# config.yaml
+
+train:
+  data:
+    data_path: "D:\\PURE"
+    cached_path: "D:\\PURE\\Contrast-Phys\\all_cache"
+    file_list_path: "D:\\PURE\\Contrast-Phys\\all_filelist.csv"
+    split_ratio:
+      - 0.0
+      - 0.6
+    chunk_length: 300  # 需要跟模型输出的T一致
+    re_size: 128
+    preprocess: false  # Set to true if you want to preprocess images
+    crop_face: true  # Set to true if you want to crop faces
+    larger_box_coef: 1.5  # Coefficient to expand the bounding box
+    backend: "YOLO"  # Set to "YOLO" if you want to use YOLO backend for face detection
+    use_face_detection: false  # Set to true if you want to use face detection for all images
+    label_type: "Standardized"  # Set to "Standardized" if you want to use standardized labels
+    data_type: ["Standardized"] # Set to ["DiffNormalized"] if you want to use DiffNormalized data types
+
+val:
+  data:
+    data_path: "D:\\PURE"
+    cached_path: "D:\\PURE\\Contrast-Phys\\all_cache"
+    file_list_path: "D:\\PURE\\Contrast-Phys\\all_filelist.csv"
+    split_ratio:
+      - 0.6
+      - 0.8
+    chunk_length: 300
+    re_size: 128
+    preprocess: false
+    crop_face: true
+    larger_box_coef: 1.5
+    backend: "YOLO"
+    use_face_detection: true
+    label_type: "Standardized"
+    data_type: ["Standardized"]
+
+test:
+  data:
+    data_path: "D:\\UBFC"
+    cached_path: "D:\\UBFC\\Contrast-Phys\\all_cache"
+    file_list_path: "D:\\UBFC\\Contrast-Phys\\all_filelist.csv"
+    split_ratio:
+      - 0.0
+      - 1.0
+    chunk_length: 300
+    re_size: 128
+    preprocess: false
+    crop_face: true
+    larger_box_coef: 1.5
+    backend: "YOLO"
+    use_face_detection: false
+    label_type: "Standardized"
+    data_type: ["Standardized"]
+
+model:
+  S: 2  # 模型输出空间维度 S×S
+  T: 300  # 模型输出时间维度 T 帧
+  in_ch: 3  # 输入通道数, 默认为3, RGB图像
+
+loss:
+  fs: 30  # 采样频率 Hz, 默认为30Hz
+  delta_t: 150  # rPPG信号采样的时间窗大小, 应为T的一半
+  K: 4  # 采样几个时间窗, 默认为4
+
+training:
+  num_epochs: 30
+  optimizer:
+    type: "AdamW"
+    lr: 0.00001
+  loss_function: "MSELoss"
+  batch_size: 2
+  shuffle: true
+  num_workers: 4
+
+device:
+  use_cuda: true
+
+checkpoints:
+  save_path: "./checkpoints"
